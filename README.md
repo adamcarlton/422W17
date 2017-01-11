@@ -8,5 +8,9 @@ Address Book
 
 # Team Members
 
-Adam Carlton
-Zachary Trudo
+Adam Carlton [Manager/Programmer],
+Zachary Trudo,
+Elizabeth Woodruff,
+Wilson Chen,
+Alex Dibb,
+Xuesong Luo
