@@ -25,7 +25,7 @@ def save():
     save_label.grid(row = 5, column = 1, sticky = tk.W, padx = 20, pady = 30)
 
 def load():
-    """ Currently not implemented. Will eventually save an address. """
+    """ Currently not implemented. Will eventually load an address. """
     load_label = tk.Label(address_book, text = "I do nothing yet")
     load_label.grid(row = 6, column = 1, sticky = tk.W, padx = 20, pady = 30)
 
