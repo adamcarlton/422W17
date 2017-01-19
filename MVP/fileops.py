@@ -1,5 +1,5 @@
 from address import Address
-from addressBook import AddressBook
+from addressbook import AddressBook
 import os
 import yaml
 
