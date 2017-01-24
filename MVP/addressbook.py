@@ -20,6 +20,14 @@ class AddressBook(object):
     retVal = [ {"address": address} for address in addresses]
     return retVal
 
+  def is_empty(self):
+    return len(self.addresses) == 0
+
+  def in_range(self, num):
+      if not isinstance(num, int):
+          raise TypeException("num is not of type int, got type {}".format(type(num)))
+      return 1 <= num <= len(self.addresses)
+
   def add_address(self, address):
     """ Adds an address to the address book.
 
