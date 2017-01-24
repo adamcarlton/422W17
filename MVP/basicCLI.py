@@ -25,7 +25,7 @@ class FileNotFoundException(Exception):
   pass
 
 class CLI(object):
-  def __init__(self, fname):
+  def __init__(self, fname=''):
     self.set_file(fname)
     if self.fname == '':
       self.request_filename()
@@ -34,7 +34,7 @@ class CLI(object):
   
   def main(self):
     while True:
-      self.displayAddressBook()
+      self.display_address_book()
       action = self.request_action()
       action()
 
@@ -61,7 +61,7 @@ class CLI(object):
         self.aBook = [None for _ in range(0,19)]
         self.aBook[self.state] = FileOps.open_address_book(self.fname)
 
-  def displayAddressBook(self):
+  def display_address_book(self):
     print "You have the following contacts in your address book:"
     counter = 1
     for address in self.aBook[self.state].addresses:
@@ -94,13 +94,15 @@ class CLI(object):
 
 
   def create(self):
-    self._increment_state()
     addy = self.create_address()
+    previous_addy_book = self.aBook[self.state]
+    self._increment_state()
+    self.aBook[self.state] = previous_addy_book
     self.aBook[self.state].add_address(addy)
       
 
   def retrieve(self, action = "retrieve"):
-    action_dict = {"l": self.displayAddressBook}
+    action_dict = {"l": self.display_address_book}
     retVal = None
 
     if self.aBook[self.state].is_empty():
