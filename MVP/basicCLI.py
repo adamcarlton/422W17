@@ -54,12 +54,17 @@ class CLI(object):
       self.request_filename()
 
   def load(self):
-    self.aBook = FileOps.open_address_book(self.fname)
+    self._increment_state()
+    try:
+        self.aBook[self.state] = FileOps.open_address_book(self.fname)
+    except:
+        self.aBook = [None for _ in range(0,19)]
+        self.aBook[self.state] = FileOps.open_address_book(self.fname)
 
   def displayAddressBook(self):
     print "You have the following contacts in your address book:"
     counter = 1
-    for address in self.aBook.addresses:
+    for address in self.aBook[self.state].addresses:
       print "{}.".format(counter), address.first_name, address.last_name
       counter += 1
 
@@ -79,19 +84,111 @@ class CLI(object):
     act = raw_input("")
     return action_dict.get(act[0].lower(), self.main)
 
+  @staticmethod
+  def convert_input(in_str):
+    try:
+      retVal = int(in_str)
+    except ValueError:
+      retVal = in_str
+    return retVal 
+
 
   def create(self):
-    pass
+    self._increment_state()
+    addy = self.create_address()
+    self.aBook[self.state].add_address(addy)
+      
 
-  def retrieve(self):
-    pass
+  def retrieve(self, action = "retrieve"):
+    action_dict = {"l": self.displayAddressBook}
+    retVal = None
+
+    if self.aBook[self.state].is_empty():
+      print "Address is currently empty. Unable to retrieve any addresses"
+      return retVal
+
+    print "Which address would you like to {}?".format(action)
+    print "Please use the provided number on the address line."
+    print "You may also (L)ist the current address book."
+    act = self.convert_input(raw_input(""))
+
+    if isinstance(act, int):
+      if self.aBook[self.state].in_range(act):
+        retVal = self.aBook[self.state].addresses[act - 1]
+        print retVal
+      elif self.aBook[self.state].is_empty():
+        print "Address book is empty"
+      else:
+        print "Please use a number between 1 and {}".format(len(self.aBook[self.state].addresses))
+        retVal = self.retrieve()
+    elif action_dict.get(act[0].lower(), None):
+      action_dict.get(act[0].lower())()
+      retVal = self.retrieve()
+    else:
+      print "Not a valid selection"
+      retVal = self.retrieve()
+    return retVal
 
   def update(self):
     pass
-
+    
   def delete(self):
-    pass
+    addy = self.retrieve("delete")
+    previous_addy_book = self.aBook[self.state]
+    self._increment_state()
+    self.aBook[self.state] = previous_addy_book
+    self.aBook[self.state].delete_address(addy)
 
+  def undo(self):
+    if self.undos > 0:
+      self._decrement_state()
+
+  def redo(self):
+    if self.redos > 0:
+      self._increment_state()
+  
+  def _increment_state(self):
+    try:
+      if self.state < 19:
+        self.state += 1
+      else:
+        self.state = 0
+    except:
+      self.state = 0
+
+    try:
+      if self.undos < 20:
+        self.undos += 1
+    except:
+      self.undos = 1
+
+    try:
+      if self.redos > 0:
+        self.redos -= 1
+    except:
+      self.redos = 0
+
+  def _decrement_state(self):
+    try:
+      if self.state == 0:
+        self.state = 19
+      else:
+        self.state -= 1
+    except:
+      self.state = 0
+
+    try:
+      if self.undos > 0:
+        self.undos -= 1
+    except:
+      self.undos = 0
+
+    try:
+      if self.redos < 20:
+        self.redos += 1
+    except:
+      self.redos = 1
+ 
   def quit(self):
     sys.exit(1)
 
