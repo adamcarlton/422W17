@@ -1,4 +1,4 @@
-from tkinter import *
+from Tkinter import *
 import AddContact_UI
 import ContactInfo_UI
 
