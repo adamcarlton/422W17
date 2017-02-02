@@ -1,0 +1,16 @@
+- address:
+    city: Literally-The-Worst
+    first_name: George
+    house_number: 123
+    last_name: Lucas
+    state: OR
+    street: Terrible Director Ln.
+    zipcode: '97229'
+- address:
+    city: Alpha
+    first_name: Gene
+    house_number: 1701
+    last_name: Roddenberry
+    state: OR
+    street: Enterprise
+    zipcode: '97229'
