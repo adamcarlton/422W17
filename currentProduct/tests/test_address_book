@@ -1,16 +1,20 @@
 - address:
     city: Literally-The-Worst
     first_name: George
-    house_number: 123
+    house_number: '123'
     last_name: Lucas
     state: OR
     street: Terrible Director Ln.
     zipcode: '97229'
+    phone_number: 503-488-3040
+    email: worst_director_ever@bad.com
 - address:
     city: Alpha
     first_name: Gene
-    house_number: 1701
+    house_number: '1701'
     last_name: Roddenberry
     state: OR
     street: Enterprise
     zipcode: '97229'
+    phone_number: 555-555-5555
+    email: the-capn@great.com
