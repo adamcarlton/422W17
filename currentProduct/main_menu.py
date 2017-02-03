@@ -69,7 +69,7 @@ class GUI(object):
     self.root = Tk()
     self.root.title("Address Book")
     self.set_menu_bar(self.root)
-    self.add_contact_search(self.root)
+    #self.add_contact_search(self.root)
     if hasattr(self, "aBook"):
       self.list_contacts(self.aBook[self.state])
     else:
@@ -130,7 +130,10 @@ class GUI(object):
   def add_contact(self, new_addy = None):
     if not new_addy:
       result = AddContact(self.root, "Add Contact").result
-      new_addy = Address(*result)
+      if result:
+        new_addy = Address(*result)
+      else:
+        return
 
     old_state = self.aBook[self.state]
     self._increment_state()
@@ -184,6 +187,7 @@ class GUI(object):
     filemenu.add_command(label="Save...", command=self.save)
     filemenu.add_command(label="Save as...", command=self.save_as)
     filemenu.add_command(label="Load", command=self._load)
+    filemenu.add_command(label="Quit", command=self.quit)
     menubar.add_cascade(label="File", menu=filemenu)
 
     editmenu = Menu(menubar, tearoff=0)
@@ -194,8 +198,9 @@ class GUI(object):
 
   def new_address_book(self):
     """ Lets you create a new address book. """
-    fileName = filedialog.askopenfilename(filetypes=(("Address Books",
-      "*.addb"), ("All files", "*.*")))
+    fileName = filedialog.asksaveasfilename(filetypes=(("Address Books", "*.addb"), ("All files", "*.*")))
+
+    print fileName
 
     if fileName == '':
       return
@@ -346,6 +351,6 @@ class GUI(object):
       self.redos = 1
  
   def quit(self):
-    sys.exit(1)
+    sys.exit(0)
 
 GUI("tests/test_address_book")
