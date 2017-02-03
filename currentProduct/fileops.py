@@ -29,7 +29,7 @@ class FileOps(object):
     for address in aBook:
       values = address["address"]
       curAdd = Address(values["last_name"], values["first_name"], values["house_number"],
-                       values["street"], values["city"], values["state"], values["zipcode"])
+                       values["street"], values["city"], values["state"], values["zipcode"], values["phone_number"], values["email"])
       retVal.add_address(curAdd)
     return retVal
 

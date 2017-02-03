@@ -3,7 +3,7 @@ class TypeException(Exception):
 
 class Address(object):
   """ Address is a class that holds an entire 'Americanized' address """
-  def __init__(self, last_name, first_name, house_number, street, city, state, zipcode):
+  def __init__(self, last_name, first_name, house_number, street, city, state, zipcode, phone_number, email):
     """ Basic initialization class of the Address object.
 
     Utilizes the update functions to do the actual initialization.
@@ -24,6 +24,8 @@ class Address(object):
     self.update_city(city)
     self.update_state(state)
     self.update_zipcode(zipcode)
+    self.update_phone_number(phone_number)
+    self.update_email(email)
 
   def __str__(self):
     """ Returns a str representing an Americanized Address 
@@ -31,13 +33,15 @@ class Address(object):
     Return:
       str: The americanized address
     """
-    return "{fn} {ln}\n{hn} {street}, {city}, {state} {zipcode}".format(fn=self.first_name,
+    return "{fn} {ln}\n{hn} {street}, {city}, {state} {zipcode}\n{phone}\n{email}".format(fn=self.first_name,
                                                                         ln=self.last_name,
                                                                         hn=self.house_number,
                                                                         city=self.city,
                                                                         street=self.street,
                                                                         state=self.state,
-                                                                        zipcode=self.zipcode
+                                                                        zipcode=self.zipcode,
+                                                                        phone=self.phone_number,
+                                                                        email=self.email
                                                                         )
 
   def to_dict(self):
@@ -47,7 +51,9 @@ class Address(object):
               "street": self.street,
               "city": self.city,
               "state": self.state,
-              "zipcode": self.zipcode
+              "zipcode": self.zipcode,
+              "phone_number": self.phone_number,
+              "email": self.email
               }
     return retVal
 
@@ -78,13 +84,13 @@ class Address(object):
   def update_house_number(self, house_number):
     """ Updates the house number. 
 
-    If the name is not of type int - will throw an exception.
+    If the name is not of type str - will throw an exception.
 
     Args:
       house_number (int): the house number
     """
-    if not isinstance(house_number, int):
-      raise TypeException("house_number was not of type int, got type {}".format(type(house_number)))
+    if not isinstance(house_number, str):
+      raise TypeException("house_number was not of type str, got type {}".format(type(house_number)))
     self.house_number = house_number
 
   def update_street(self, street):
@@ -126,7 +132,7 @@ class Address(object):
   def update_zipcode(self, zipcode):
     """ Updates the zipcode. 
 
-    If the zipcode is not of type int - will throw an exception.
+    If the zipcode is not of type str - will throw an exception.
 
     Args:
       zipcode (int): zipcode of the person
@@ -134,4 +140,28 @@ class Address(object):
     if not isinstance(zipcode, str):
       raise TypeException("zipcode was not of type str, got type {}".format(type(zipcode)))
     self.zipcode = zipcode
+
+  def update_phone_number(self, phone_number):
+    """ Updates the phone number.
+
+    If the phone number isn't a string - will throw an exception.
+
+    Args:
+      phone_number (str): phone number of the person
+    """
+    if not isinstance(phone_number, str):
+      raise TypeException("phone_number was not of type str, got type {}".format(type(phone_number)))
+    self.phone_number = phone_number
+
+  def update_email(self, email):
+    """ Updates the email.
+
+    If the email isn't a string - will throw an exception.
+
+    Args:
+      email (str): email of the person
+    """
+    if not isinstance(email, str):
+      raise TypeException("email was not of type str, got type {}".format(type(email)))
+    self.email = email
 
