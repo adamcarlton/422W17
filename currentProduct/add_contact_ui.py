@@ -14,6 +14,8 @@ class AddContact(CoolDialog):
     Label(master, text="City: ",         font='Helvetica -14').grid(row=4)
     Label(master, text="State: ",        font='Helvetica -14').grid(row=5)
     Label(master, text="Zip: ",          font='Helvetica -14').grid(row=6)
+    Label(master, text="Phone Number: ", font='Helvetica -14').grid(row=7)
+    Label(master, text="Email: ",        font='Helvetica -14').grid(row=8)
 
     self.e0 = Entry(master)
     self.e1 = Entry(master)
@@ -22,6 +24,8 @@ class AddContact(CoolDialog):
     self.e4 = Entry(master)
     self.e5 = Entry(master)
     self.e6 = Entry(master)
+    self.e7 = Entry(master)
+    self.e8 = Entry(master)
 
     self.e0.grid(row=0, column=1)
     self.e1.grid(row=1, column=1)
@@ -30,15 +34,19 @@ class AddContact(CoolDialog):
     self.e4.grid(row=4, column=1)
     self.e5.grid(row=5, column=1)
     self.e6.grid(row=6, column=1)
+    self.e7.grid(row=7, column=1)
+    self.e8.grid(row=8, column=1)
     return self.e1
 
   def apply(self):
     first_name   = str(self.e0.get())
     last_name    = str(self.e1.get())
-    house_number = int(self.e2.get())
+    house_number = str(self.e2.get())
     street       = str(self.e3.get())
     city         = str(self.e4.get())
     state        = str(self.e5.get())
     zip_         = str(self.e6.get())
-    self.result = (last_name, first_name, house_number, street, city, state, zip_)
+    phone        = str(self.e7.get())
+    email        = str(self.e8.get())
+    self.result = (last_name, first_name, house_number, street, city, state, zip_, phone, email)
 
