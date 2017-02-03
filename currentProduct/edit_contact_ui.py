@@ -7,21 +7,34 @@ class EditContact(CoolDialog):
   """
   def __init__(self, parent, address, title = None):
     self.address = address[1]
+    self.delete = False
     CoolDialog.__init__(self, parent, title)
 
   def buttonbox(self):
     box = Frame(self)
 
-    w = Button(box, text="Save", width=10, command=self.save, default=ACTIVE)
-    w.pack(side=LEFT, padx=5, pady=5)
-    w = Button(box, text="Cancel", width=10, command=self.cancel)
-    w.pack(side=LEFT, padx=5, pady=5)
+    save = Button(box, text="Save", width=10, command=self.save, default=ACTIVE)
+    save.pack(side=LEFT, padx=5, pady=5)
+    delete = Button(box, text="Delete", width=10, command=self._delete)
+    delete.pack(side=LEFT, padx=5, pady=5)
+    cancel = Button(box, text="Cancel", width=10, command=self.cancel)
+    cancel.pack(side=LEFT, padx=5, pady=5)
 
     self.bind("<Return>", self.save)
+    self.bind("<Alt>", self.delete)
     self.bind("<Escape>", self.cancel)
 
     box.pack()
 
+  def _delete(self, event=None):
+    self.delete = True
+    print "Yeahp!"
+    if not self.validate():
+        self.initial_focus.focus_set() # put focus back
+        return
+    self.withdraw()
+    self.update_idletasks()
+    self.destroy()
 
   def body(self, master):
     Label(master, text="First Name: ",   font='Helvetica -14').grid(row=0)
