@@ -45,13 +45,16 @@ class BetterListBox(object):
     selection = widget.curselection()
     addy = self.the_list[selection[0]]
     print addy[1]
-    editted_addy = EditContact(self.parent, addy).result
+    edit_contact = EditContact(self.parent, addy)
+    editted_addy = edit_contact.result
+    delete_addy = edit_contact.delete
+    
     if editted_addy:
       new_addy = Address(*editted_addy)
       self.gui.add_contact(new_addy)
       self.gui.delete_contact(addy[1])
-
-
+    elif delete_addy:
+      self.gui.delete_contact(addy[1])
 
 class GUI(object):
   """ Basic GUI for our address book """
@@ -199,7 +202,7 @@ class GUI(object):
     
     try:
       open(fileName, "r")
-      raise FileFoundException("File {} already exists.\n Overwrite?")
+      raise FileFoundException("File {} already exists.\n Overwrite?".format(fileName))
     except IOError as e:
       open(fileName, "w")
     except FileFoundException as e:
@@ -221,6 +224,8 @@ class GUI(object):
     """ Pops up a dialog box asking where you want to save """
     fileName = filedialog.asksaveasfilename(filetypes=(("Address Books",
       "*.addb"), ("All files", "*.*")))
+    if fileName == "":
+      return
     # Filedialog handles the case where the file already exists. So we can
     # overwrite without worrying. 
     self._save(fileName, overwrite=True)
