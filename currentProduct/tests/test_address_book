@@ -1,20 +1,60 @@
 - address:
     city: Literally-The-Worst
+    email: worst_director_ever@bad.com
     first_name: George
     house_number: '123'
     last_name: Lucas
+    phone_number: 503-488-3040
     state: OR
     street: Terrible Director Ln.
     zipcode: '97229'
-    phone_number: 503-488-3040
-    email: worst_director_ever@bad.com
 - address:
     city: Alpha
+    email: the-capn@great.com
     first_name: Gene
     house_number: '1701'
     last_name: Roddenberry
+    phone_number: 555-555-5555
     state: OR
     street: Enterprise
     zipcode: '97229'
-    phone_number: 555-555-5555
-    email: the-capn@great.com
+- address:
+    city: Portland
+    email: asdf@gmail.com 
+    first_name: Quentin
+    house_number: '444'
+    last_name: Terentino
+    phone_number: 111-111-1111
+    state: WA
+    street: Best Director 
+    zipcode: '34456'
+- address:
+    city: Austin
+    email: mrmanager@422.com
+    first_name: Adam
+    house_number: '304'
+    last_name: Carlton
+    phone_number: 666-666-6666
+    state: TX
+    street: Neider Dr.
+    zipcode: '78749'
+- address:
+    city: Dallas
+    email: CoolAddy@whatever.com 
+    first_name: Daphne
+    house_number: '808'
+    last_name: Brown
+    phone_number: 666-666-6666
+    state: DC
+    street: Maple Dr.
+    zipcode: '11111'
+- address:
+    city: Wood
+    email: fakeemail123@email.com
+    first_name: Fake
+    house_number: '123'
+    last_name: Door
+    phone_number: 666-666-6666
+    state: Fan
+    street: Fake St
+    zipcode: '66666'

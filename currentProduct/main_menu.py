@@ -43,8 +43,10 @@ class BetterListBox(object):
   def click_name(self, event):
     widget = event.widget
     selection = widget.curselection()
-    addy = self.the_list[selection[0]]
-    print addy[1]
+    try:
+	    addy = self.the_list[selection[0]]
+    except:
+      return
     edit_contact = EditContact(self.parent, addy)
     editted_addy = edit_contact.result
     delete_addy = edit_contact.delete
@@ -77,6 +79,7 @@ class GUI(object):
       self.list_contacts(self.aBook[self.state])
 
     self.add_new_contact_button()
+    self.add_sort_buttons()
     self.root.mainloop()
 
   def munge_contact_list(self, contact_list):
@@ -102,10 +105,9 @@ class GUI(object):
         contacts.append((contact[0], contact[2]))
       else:
         continue
-    contacts.sort()
     return contacts
 
-  def list_contacts(self, aBook):
+  def list_contacts(self, aBook, sort=""):
     """ Lists the contacts on the screen """
     if hasattr(self, "frame"):
       self.frame.destroy()
@@ -116,6 +118,14 @@ class GUI(object):
 
     contact_list = self.get_contact_list(aBook)
     contacts = self.munge_contact_list(contact_list)
+    
+    if sort == "alpha":
+      contacts.sort(key=lambda tup: tup[0])
+    elif sort == "rev_alpha":
+      contacts.sort(key=lambda tup: tup[0])
+      contacts.reverse()
+    elif sort == "zip":
+      contacts.sort(key=lambda tup: (tup[1].zipcode, tup[1].first_name))
 
     bListBox = BetterListBox(contacts, self.frame, self)
     bListBox.create_contact_list_box( scrollbar)
@@ -126,6 +136,32 @@ class GUI(object):
     button = Button(self.add_new_contact_frame, text="Add new contact",
         command=self.add_contact)
     button.pack(fill=X)
+
+  def add_sort_buttons(self):
+    self.alphabetical_frame = Frame(self.root)
+    self.alphabetical_frame.pack(side=BOTTOM, expand=YES)
+    button = Button(self.alphabetical_frame, text="Sort alphabetical",
+        command=self.sort_alphabetical)
+    button.pack(fill=X)
+    self.reverse_alphabetical_frame = Frame(self.root)
+    self.reverse_alphabetical_frame.pack(side=BOTTOM, expand=YES)
+    button = Button(self.reverse_alphabetical_frame, text="Sort reverse alphabetical",
+        command=self.sort_reverse_alphabetical)
+    button.pack(fill=X)
+    self.zipcode_frame = Frame(self.root)
+    self.zipcode_frame.pack(side=BOTTOM, expand=YES)
+    button = Button(self.zipcode_frame, text="Sort by zipcode",
+        command=self.sort_zipcode)
+    button.pack(fill=X)
+
+  def sort_alphabetical(self):
+    self.list_contacts(self.aBook[self.state], sort="alpha")
+
+  def sort_reverse_alphabetical(self):
+    self.list_contacts(self.aBook[self.state], sort="rev_alpha")
+
+  def sort_zipcode(self):
+    self.list_contacts(self.aBook[self.state], sort="zip")
 
   def add_contact(self, new_addy = None):
     if not new_addy:
@@ -190,10 +226,10 @@ class GUI(object):
     filemenu.add_command(label="Quit", command=self.quit)
     menubar.add_cascade(label="File", menu=filemenu)
 
-    editmenu = Menu(menubar, tearoff=0)
-    editmenu.add_command(label="Undo", command=self.undo)
-    editmenu.add_command(label="Redo", command=self.redo)
-    menubar.add_cascade(label="Edit", menu=editmenu)
+   # editmenu = Menu(menubar, tearoff=0)
+   # editmenu.add_command(label="Undo", command=self.undo)
+   # editmenu.add_command(label="Redo", command=self.redo)
+   # menubar.add_cascade(label="Edit", menu=editmenu)
     page.config(menu=menubar)
 
   def new_address_book(self):
@@ -303,10 +339,12 @@ class GUI(object):
   def undo(self):
     if self.undos > 0:
       self._decrement_state()
+      self.list_contacts(self.aBook[self.state])
 
   def redo(self):
     if self.redos > 0:
       self._increment_state()
+      self.list_contacts(self.aBook[self.state])
 
   def _increment_state(self):
     try:
